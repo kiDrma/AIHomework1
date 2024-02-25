@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
-public class RepeatedForwardA {
-    private Coordinate startState = new Coordinate(0, 0);
+public class RepeatedBackwardA {
+    private Coordinate startState = new Coordinate(1, 1);
     private Coordinate agent = new Coordinate(0, 0);
     private static Coordinate goal;
     private int heuristics[][];
@@ -13,13 +13,12 @@ public class RepeatedForwardA {
     private Boolean[][] maze;
     private Boolean[][] blankMaze;
     ArrayList<Coordinate> finalPath = new ArrayList<>();
-    private int MAX_ITERATIONS = 101*101;
-
+    private final int MAX_ITERATIONS = 101*101;
 
     ArrayList<Coordinate> path = new ArrayList<Coordinate>();
 
-    public RepeatedForwardA(Coordinate goal, int heuristics[][], Boolean[][] maze){
-        this.goal = new Coordinate(goal.row, goal.col);
+    public RepeatedBackwardA(Coordinate goal, int heuristics[][], Boolean[][] maze){
+        this.goal = new Coordinate(0, 0);
         this.heuristics = heuristics;
         this.maze = maze;
         agent.setFValue(calculateFValue(agent));
@@ -100,7 +99,7 @@ public class RepeatedForwardA {
         ArrayList<Coordinate> path = aStar(startState);
         agent = startState;
         int iteration = 0;
-        while((agent.row != goal.row || agent.col != goal.col) && iteration < MAX_ITERATIONS){
+        while((agent.row != goal.row || agent.col != goal.col) && iteration < 10){
             for (int i = 1; i < path.size(); i++) {
                 updateBlankMaze(agent);
                 if (maze[path.get(i).row][path.get(i).col]) {
@@ -187,18 +186,6 @@ public class RepeatedForwardA {
         return findGofS(state) + heuristics[state.row][state.col];
     }
 
-    private ArrayList<Coordinate> validNeighbors(Coordinate c){
-        ArrayList<Coordinate> neighbors = getNeighbors(c);
-        ArrayList<Coordinate> validNeighbors = new ArrayList<>();
-        for(int i = 0; i < neighbors.size(); i++){
-            Coordinate n = neighbors.get(i);
-            if(maze[n.row][n.col]){
-                validNeighbors.add(n);
-            }
-        }
-        return validNeighbors;
-    }
-
     private ArrayList<Coordinate> getNeighbors(Coordinate c){
         ArrayList<Coordinate> neighbors = new ArrayList<>();
         // Down neighbor
@@ -221,3 +208,4 @@ public class RepeatedForwardA {
         return neighbors;
     }
 }
+

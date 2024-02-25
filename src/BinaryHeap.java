@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class BinaryHeap {
     private Coordinate elements[];
     public int currentSize;
@@ -79,5 +81,22 @@ public class BinaryHeap {
 
     private int getParentIndex(int index){
         return (index - 1) / 2;
+    }
+
+    public ArrayList<Coordinate> getArrayList(){
+        ArrayList<Coordinate> c = new ArrayList<>();
+        for(int i = 0; i < elements.length; i++){
+            if(elements[i] != null){
+                c.add(elements[i]);
+            }
+        }
+        return c;
+    }
+
+    public void clear(){
+        for(int i = 0; i < elements.length; i++){
+            elements[i] = null;
+        }
+        currentSize = 0;
     }
 }

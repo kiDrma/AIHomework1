@@ -3,9 +3,9 @@ import java.util.Random;
 import java.util.*;
 
 public class MazeGeneration {
-    static int numbCols = 5;
-    static int numbRows = 5;
-    static int numbMazes = 6;
+    static int numbCols = 2;
+    static int numbRows = 2;
+    static int numbMazes = 50;
 
     static ArrayList<Boolean[][]> mazeList = new ArrayList<>();
     static int[][] heuristicValues = new int[numbRows][numbCols];
@@ -14,44 +14,43 @@ public class MazeGeneration {
     static double chanceBlocked = .3;
     static int randomSeed = 500;
 
+    static int lastTime = 0;
+
     public static void main(String[] args) {
         generateMazes();
         drawMazes();
         setHeuristicValues();
-        //printHeuristics();
-        //minHeapTest();
-        System.out.println("Maze " + 6);
-        RepeatedForwardA r = new RepeatedForwardA(goal, heuristicValues, mazeList.get(4));
-        r.printCoords();
+        runAllTestsForward();
+        runAllTestsBackward();
     }
 
-    //delete before submitting
-    /*
-    public static void minHeapTest(){
-        BinaryHeap h = new BinaryHeap();
-        h.addElement(2);
-        h.addElement(5);
-        h.addElement(8);
-        h.addElement(9);
-        h.addElement(200);
-        h.addElement(30);
-        h.addElement(1);
-        h.addElement(-100);
-        System.out.println(h.getMin());
-        h.deleteMin();
-        System.out.println(h.getMin());
-        h.deleteMin();
-        System.out.println(h.getMin());
-        h.deleteMin();
-        System.out.println(h.getMin());
-        h.deleteMin();
-        System.out.println(h.getMin());
-        h.deleteMin();
-        System.out.println(h.getMin());
-        h.deleteMin();
-        System.out.println(h.getMin());
+    private static void runAllTestsForward(){
+        System.out.println("Forward Tests");
+        for(int i = 0; i < mazeList.size(); i++){
+            lastTime = (int) System.currentTimeMillis();
+            runTestForward(i);
+        }
     }
-    */
+
+    private static void runAllTestsBackward(){
+        System.out.println("Backward Tests");
+        for(int i = 0; i < mazeList.size(); i++){
+            lastTime = (int) System.currentTimeMillis();
+            runTestBackward(i);
+        }
+    }
+
+    private static void runTestForward(int maze){
+        RepeatedForwardA r = new RepeatedForwardA(goal, heuristicValues, mazeList.get(maze));
+        r.printCoords();
+        System.out.println("Time solving maze " + (maze + 1) + ": " + ((System.currentTimeMillis() - lastTime) % 10000));
+    }
+
+    private static void runTestBackward(int maze){
+        RepeatedBackwardA r = new RepeatedBackwardA(new Coordinate(0, 0), heuristicValues, mazeList.get(maze));
+        r.printCoords();
+        System.out.println("Time solving maze " + (maze + 1) + ": " + ((System.currentTimeMillis() - lastTime) % 10000));
+    }
 
     public static void setHeuristicValues(){
         for(int i = 0; i < numbRows; i++){

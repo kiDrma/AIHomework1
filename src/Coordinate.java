@@ -5,7 +5,11 @@ public class Coordinate {
     int col;
     int fValue;
     int gValue;
+    int visits = 0;
+    Coordinate lastCoord;
     ArrayList<Coordinate> path = new ArrayList<>();
+
+    public Coordinate(){}
 
     public Coordinate(int r, int c, int fval){
         row = r;
@@ -24,6 +28,12 @@ public class Coordinate {
 
     public void setGValue(int gValue){
         this.gValue = gValue;
+    }
+
+    public void setLastCoord(Coordinate c) { this.lastCoord = c; }
+
+    public void incrementVisits(){
+        visits++;
     }
 
     public void addToPath(Coordinate c){
